@@ -5,7 +5,7 @@ module ActiveadminSettings
 
       # Validators
       base.validates_presence_of   :name
-      base.validates_uniqueness_of :name
+      base.validates_uniqueness_of :name, scope: :tenant_id
       base.validates_length_of     :name, minimum: 1
 
       base.extend ClassMethods
@@ -74,6 +74,9 @@ module ActiveadminSettings
     end
   else
     class Setting < ActiveRecord::Base
+
+      default_scope { where(tenant_id: Tenant.current_id) }
+
       include SettingMethods
       attr_accessible :name, :string, :file, :remove_file
 

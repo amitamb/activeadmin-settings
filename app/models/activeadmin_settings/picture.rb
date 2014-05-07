@@ -63,7 +63,7 @@ module ActiveadminSettings
       include PictureMethods
 
       # Scopes
-      default_scope order('created_at desc')
+      default_scope { where(tenant_id: Tenant.current_id).order('created_at desc') }
     end
   end
 end
